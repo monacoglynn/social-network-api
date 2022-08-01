@@ -11,7 +11,7 @@ const thoughtSchema = new Schema({
         require: true,
         minLength: 1,
         maxLength: 280
-    }
+    },
     //this is a date set default value to the current timestamp.
     //use a getter method to format the timestamp on the query.
     createdAt: Date,
@@ -22,7 +22,18 @@ const thoughtSchema = new Schema({
 
     //make a virtual called reactionCount, that is a count of how many reactions.
 
-})
+}, {
+    toJSON: {
+        virtuals: true
+    },
+    id: false
+});
+
+thoughtSchema
+    .virtual('reactionCount')
+    .get(function () {
+        return this.reactions.length
+    });
 
 //this will be a sub-document inside of the thought model.
 const reactionSchema = new Schema({
