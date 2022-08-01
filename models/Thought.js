@@ -6,7 +6,12 @@ const {
 
 const thoughtSchema = new Schema({
     //required must be between 1-280 characters
-    thoughtText: String,
+    thoughtText: {
+        type: String,
+        require: true,
+        minLength: 1,
+        maxLength: 280
+    }
     //this is a date set default value to the current timestamp.
     //use a getter method to format the timestamp on the query.
     createdAt: Date,
