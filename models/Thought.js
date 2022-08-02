@@ -3,6 +3,24 @@ const {
     model
 } = require('mongoose');
 
+//this is the sub schema that will live inside of the thoughtSchema
+
+const reactionSchema = new Schema({
+    //use mongooses ObjectId
+    reactionId: ObjectId(),
+    //required max is 280 characters
+    reactionBody: {
+        type: String,
+        require: true,
+        maxLength: 280
+    },
+    username: {
+        type: String,
+        require: true
+    },
+    createdAt: Date
+})
+
 
 const thoughtSchema = new Schema({
     //required must be between 1-280 characters
@@ -16,11 +34,12 @@ const thoughtSchema = new Schema({
     //use a getter method to format the timestamp on the query.
     createdAt: Date,
     //the user that created the thought.
-    username: String,
-    //reactions array of nested documents created with
-    //the reactionSchema.
-
-    //make a virtual called reactionCount, that is a count of how many reactions.
+    username: {
+        type: String,
+        require: true
+    },
+    //this is how we use a subDocument.
+    reactions: [reactionSchema]
 
 }, {
     toJSON: {
@@ -35,12 +54,6 @@ thoughtSchema
         return this.reactions.length
     });
 
-//this will be a sub-document inside of the thought model.
-const reactionSchema = new Schema({
-    //use mongooses ObjectId
-    reactionId: ObjectId(),
-    //required max is 280 characters
-    reactionBody: String,
-    username: String,
-    createdAt: Date
-})
+const Thought = mongoose.model('Thought', thoughtSchema);
+
+module.exports = Thought;
