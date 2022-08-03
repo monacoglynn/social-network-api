@@ -3,7 +3,8 @@ const {
     connection
 } = require('mongoose');
 
-connect('mongodb:localhost/dummySocialDB', {
+const PORT = process.env.MONGODB_URI || 'mongodb:localhost/dummySocialDB'
+connect(PORT, {
     useNewUrlParser: true,
     userUnifiedTopology: true
 });

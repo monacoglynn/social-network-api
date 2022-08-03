@@ -18,7 +18,10 @@ const reactionSchema = new Schema({
         type: String,
         require: true
     },
-    createdAt: Date
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    }
 })
 
 
@@ -32,7 +35,10 @@ const thoughtSchema = new Schema({
     },
     //this is a date set default value to the current timestamp.
     //use a getter method to format the timestamp on the query.
-    createdAt: Date,
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
     //the user that created the thought.
     username: {
         type: String,
